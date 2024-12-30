@@ -1,101 +1,135 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+const sampleOrders: any = {
+  daraz: [
+    {
+      orderId: 101,
+      customerName: "Alice",
+      amount: "$120",
+      status: "Delivered",
+    },
+    { orderId: 102, customerName: "Bob", amount: "$85", status: "Shipped" },
+    { orderId: 103, customerName: "Cathy", amount: "$150", status: "Pending" },
+    {
+      orderId: 104,
+      customerName: "Daniel",
+      amount: "$200",
+      status: "Cancelled",
+    },
+    { orderId: 105, customerName: "Eva", amount: "$95", status: "Delivered" },
+    {
+      orderId: 106,
+      customerName: "Frank",
+      amount: "$50",
+      status: "In Transit",
+    },
+    { orderId: 107, customerName: "Grace", amount: "$120", status: "Shipped" },
+    { orderId: 108, customerName: "Hank", amount: "$300", status: "Delivered" },
+  ],
+  foodpanda: [
+    {
+      orderId: 201,
+      customerName: "Charlie",
+      amount: "$50",
+      status: "Delivered",
+    },
+    { orderId: 202, customerName: "David", amount: "$25", status: "Preparing" },
+    { orderId: 203, customerName: "Irene", amount: "$45", status: "Cancelled" },
+    { orderId: 204, customerName: "James", amount: "$70", status: "Shipped" },
+    { orderId: 205, customerName: "Kim", amount: "$30", status: "Delivered" },
+    { orderId: 206, customerName: "Larry", amount: "$85", status: "Pending" },
+    { orderId: 207, customerName: "Mona", amount: "$60", status: "Delivered" },
+    { orderId: 208, customerName: "Nate", amount: "$90", status: "In Transit" },
+  ],
+  amazon: [
+    { orderId: 301, customerName: "Eve", amount: "$200", status: "In Transit" },
+    { orderId: 302, customerName: "Frank", amount: "$150", status: "Pending" },
+    {
+      orderId: 303,
+      customerName: "Olivia",
+      amount: "$300",
+      status: "Delivered",
+    },
+    { orderId: 304, customerName: "Paul", amount: "$250", status: "Cancelled" },
+    {
+      orderId: 305,
+      customerName: "Quinn",
+      amount: "$180",
+      status: "Delivered",
+    },
+    { orderId: 306, customerName: "Rachel", amount: "$90", status: "Shipped" },
+    {
+      orderId: 307,
+      customerName: "Steve",
+      amount: "$120",
+      status: "Delivered",
+    },
+    { orderId: 308, customerName: "Tina", amount: "$400", status: "Pending" },
+    { orderId: 309, customerName: "Uma", amount: "$75", status: "Delivered" },
+  ],
+};
+
+const OrdersPage = () => {
+  const [subdomain, setSubdomain] = useState("");
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Get the subdomain from the window location (hostname)
+    const currentSubdomain = window.location.hostname.split(".")[0];
+    setSubdomain(currentSubdomain);
+
+    // Simulate data fetching with a delay
+    setTimeout(() => {
+      const fetchedOrders = sampleOrders[currentSubdomain] || [];
+      setOrders(fetchedOrders);
+      setLoading(false);
+    }, 1000); // Simulate a 1-second delay
+  }, []);
+
+  console.log(orders, "orders");
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="p-5">
+      {loading ? (
+        <div className="flex flex-col justify-center items-center  py-5">
+          <div className="loader" />
+          <p className="mt-4">Loading orders...</p>
+        </div> // Loading message or spinner
+      ) : (
+        <>
+          <h1 className="text-center font-bold my-4">Orders for {subdomain}</h1>
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.length > 0 ? (
+                orders.map((order: any) => (
+                  <tr key={order.orderId}>
+                    <td>{order.orderId}</td>
+                    <td>{order.customerName}</td>
+                    <td>{order.amount}</td>
+                    <td>{order.status}</td>
+                  </tr>
+                ))
+              ) : (
+                <div>
+                  <p>You have no Order!</p>
+                </div>
+              )}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
-}
+};
+
+export default OrdersPage;
